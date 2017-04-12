@@ -1,0 +1,32 @@
+{
+  "name": "plot-right",
+  "version": "1.0.0",
+  "description": "Plotting done Right!",
+  "main": "entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "http-server": "http-server -a localhost -p 8090 -o",
+    "webpack": "webpack --progress --colors",
+    "webpack-watch": "webpack --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjavaid/PlotRight.git"
+  },
+  "keywords": [
+    "d3",
+    "charts",
+    "plot"
+  ],
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mjavaid/PlotRight/issues"
+  },
+  "homepage": "https://github.com/mjavaid/PlotRight#readme",
+  "devDependencies": {
+    "d3": "^4.7.4",
+    "http-server": "^0.9.0",
+    "webpack": "^2.3.3"
+  }
+}
