@@ -1,2 +1,2 @@
 # PlotRight
-Plotting &amp; Charting, the right way!
+Plotting done Right!
