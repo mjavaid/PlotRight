@@ -1,1 +1,3 @@
-console.log('Hello World!');
+const PlotRight = require("./js/plotright.js").default;
+
+PlotRight.draw();
