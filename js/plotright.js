@@ -1,5 +1,8 @@
 const d3 = require("d3");
 
+const Plotter = require("./plotter/plotter.js").default;
+const Renderer = require("./renderer/renderer.js").default;
+
 const PlotRight = (function() {
 
 	const lib = {};
@@ -10,7 +13,10 @@ const PlotRight = (function() {
 			return;
 		}
 
-		console.info("DRAW");
+		console.info("PlotRight - DRAW");
+
+		Plotter.plot({});
+		Renderer.render({});
 	};
 
 	return lib;
