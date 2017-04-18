@@ -7,13 +7,13 @@ const PlotRight = (function() {
 
 	const lib = {};
 	
-	lib.draw = function() {
+	lib.draw = function(conf) {
 		if(!d3) {
 			console.error("DEPENDENCY: D3 not available!");
 			return;
 		}
 
-		console.info("PlotRight - DRAW");
+		console.info("PlotRight - DRAW", conf);
 
 		Plotter.plot({});
 		Renderer.render({});
