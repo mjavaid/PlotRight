@@ -3,6 +3,8 @@ const UTILS = (function() {
 
 	utils.TIME = require("./time/time.js").default;
 
+	utils.DOM_ELEMENTS = {};
+
 	return utils;
 })();
 

@@ -6,6 +6,7 @@ const DEV_UTILS = require("./js/dev/utils.js").default;
 	const data = DEV_UTILS.generateData({min: 5, max: 50, n: 20});
 
 	PlotRight.draw({ 
+		selector: '#chart',
 		data,
 		category: function(d) { return d.x; },
 		value: function(values) {

@@ -33,10 +33,11 @@ const PlotRight = (function() {
 
 		console.info("PlotRight - DRAW", conf);
 
-		console.log("DATA:", processData(conf));
+		const chartData = processData(conf);
+		console.log("DATA:", chartData);
 
-		Plotter.plot({});
-		Renderer.render({});
+		Plotter.plot(conf);
+		Renderer.render(conf);
 	};
 
 	return lib;
