@@ -5,27 +5,52 @@ const UTILS = require('../utils/utils.js').default;
 const Plotter = (function() {
 	const plotter = {};
 
-	const createSVG = function(selector, width, height) {
-		const container = d3.select(selector);
+	const createSVG = function(conf) {
+		const container = d3.select(conf.selector);
 
-		width = width || container.node().clientWidth;
-		height = height || 400;
+		conf.width = conf.width || container.node().clientWidth;
+		conf.height = conf.height || 400;
+
+		conf.chartWidth = conf.width - UTILS.MARGIN.LEFT - UTILS.MARGIN.RIGHT;
+		conf.chartHeight = conf.height - UTILS.MARGIN.TOP - UTILS.MARGIN.BOTTOM;
+
 		const svg = container.append('svg')
-			.attr('width', width)
-			.attr('height', height)
+			.attr('width', conf.width)
+			.attr('height', conf.height)
 			.style('background-color', 'red');
+		
+		const chartGroup = svg.append('g')
+			.attr('transform', `translate(${UTILS.MARGIN.LEFT}, ${UTILS.MARGIN.TOP})`);
 
 		UTILS.svg = svg;
+		UTILS.chartGroup = chartGroup;
 	};
 
-	const createAxis = function() {
+	const createAxis = function(conf) {
+		const x = d3.scaleLinear().range([0, conf.chartWidth]);
+		const y = d3.scaleLinear().range([conf.chartHeight, 0]);
+		UTILS.chartProps.x = x;
+		UTILS.chartProps.y = y;
+
+		const axisX = d3.axisBottom(x);
+		const axisY = d3.axisLeft(y);
+		UTILS.chartProps.axisX = axisX;
+		UTILS.chartProps.axisY = axisY;
+
+		UTILS.chartGroup.append('g')
+			.call(UTILS.chartProps.axisY);
+
+		UTILS.chartGroup.append("g")
+			.attr('transform', `translate(0,${conf.chartHeight})`)
+			.call(UTILS.chartProps.axisX);
+
 		console.log(UTILS.svg);
 	}
 
 	plotter.plot = function(conf) {
 		console.log("PLOTTER:", conf);
-		createSVG(conf.selector, conf.width, conf.height);
-		createAxis();
+		createSVG(conf);
+		createAxis(conf);
 	};
 
 	return plotter;	
