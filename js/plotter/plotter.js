@@ -19,6 +19,22 @@ const Plotter = (function() {
 			.attr('height', conf.height)
 			.style('background-color', 'red');
 		
+		if (conf.title) {
+			svg.append('g')
+				.attr('width', conf.width)
+				.classed('chart-title-group', true)
+				.append('text')
+					.text(conf.title)
+					.attr('text-anchor', 'middle')
+					.attr('alignment-baseline', 'middle')
+					.attr('x', Math.floor(conf.width / 2))
+					.attr('y', Math.floor(UTILS.MARGIN.TOP / 2))
+					.style('font-weight', 'bold')
+					.style('font-size', '2em')
+					.style('font-family', 'Calibri')
+					.classed('chart-title', true);
+		}
+		
 		const chartGroup = svg.append('g')
 			.attr('transform', `translate(${UTILS.MARGIN.LEFT}, ${UTILS.MARGIN.TOP})`);
 
