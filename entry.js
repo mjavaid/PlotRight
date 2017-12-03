@@ -14,6 +14,15 @@ const DEV_UTILS = require("./js/dev/utils.js").default;
 			let sum = 0;
 			values.forEach(d => { sum += d.y});
 			return sum;
+		},
+		axis: {
+			x: {
+				gridLines: false
+			},
+			y: {
+				gridLines: true
+			},
+			gridLines: true
 		}
 	});
 
