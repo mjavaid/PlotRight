@@ -5,7 +5,8 @@ const UTILS = require('../utils/utils.js').default;
 const Plotter = (function() {
 	const plotter = {};
 
-	const createGridlines = function(conf, isX) {
+	const createGridlines = function(chart, isX) {
+		const conf = chart.conf;
 		const axisX = UTILS.chartProps.axisX;
 		const x = UTILS.chartProps.x;
 		const axisY = UTILS.chartProps.axisY;
@@ -43,7 +44,8 @@ const Plotter = (function() {
 		UTILS.DOM_ELEMENTS[isX ? 'xAxisGridLines' : 'yAxisGridLines'] = gridLinesGroup;
 	}
 
-	const createSVG = function(conf) {
+	const createSVG = function(chart) {
+		const conf = chart.conf;
 		const container = d3.select(conf.selector)
 			.classed('plot-right-chart', true);
 
@@ -80,7 +82,8 @@ const Plotter = (function() {
 		UTILS.DOM_ELEMENTS.chartGroup = chartGroup;
 	};
 
-	const createAxis = function(conf) {
+	const createAxis = function(chart) {
+		const conf = chart.conf;
 		const x = d3.scaleLinear().range([0, conf.chartWidth]);
 		const y = d3.scaleLinear().range([conf.chartHeight, 0]);
 		UTILS.chartProps.x = x;
@@ -107,8 +110,9 @@ const Plotter = (function() {
 		console.log(UTILS.DOM_ELEMENTS.svg);
 	}
 
-	plotter.plot = function(conf) {
-		console.log('PLOTTER:', conf);
+	plotter.plot = function(chart) {
+		console.log('PLOTTER:', chart.conf);
+		const conf = chart.conf;
 		
 		conf.axis = conf.axis || {};
 		conf.axis.x = conf.axis.x || {};
@@ -121,10 +125,10 @@ const Plotter = (function() {
 			conf.axis.y.gridLines = conf.axis.y.gridLines === undefined ? true : conf.axis.y.gridLines;
 		}
 
-		createSVG(conf);
-		createAxis(conf);
-		createGridlines(conf, true);
-		createGridlines(conf);
+		createSVG(chart);
+		createAxis(chart);
+		createGridlines(chart, true);
+		createGridlines(chart);
 	};
 
 	return plotter;	

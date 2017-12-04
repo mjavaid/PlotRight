@@ -5,7 +5,7 @@ const DEV_UTILS = require("./js/dev/utils.js").default;
 	
 	const data = DEV_UTILS.generateData({min: 5, max: 50, n: 20});
 
-	PlotRight.draw({ 
+	const chart = PlotRight.draw({ 
 		data,
 		selector: '#chart',
 		title: 'Test Chart Title',
@@ -25,6 +25,8 @@ const DEV_UTILS = require("./js/dev/utils.js").default;
 			gridLines: true
 		}
 	});
+
+	console.log(chart);
 
 })();
 
