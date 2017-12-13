@@ -7,25 +7,28 @@ const Plotter = (function() {
 
 	const createGridlines = function(chart, isX) {
 		const conf = chart.conf;
-		const axisX = UTILS.chartProps.axisX;
-		const x = UTILS.chartProps.x;
-		const axisY = UTILS.chartProps.axisY;
-		const y = UTILS.chartProps.y;
-		const xAxisTicks = axisX.scale().ticks(axisX.ticks()[0]);
-		const yAxisTicks = axisY.scale().ticks(axisY.ticks()[0]);
+		const axisX = chart.chartProps.axisX;
+		const x = chart.chartProps.x;
+		const axisY = chart.chartProps.axisY;
+		const y = chart.chartProps.y;
+		const xAxisTicks = x.domain();
+		const yAxisTicks = y.ticks(axisY.ticks()[0]);
+
+		const xTickDistance = x.bandwidth() / 2;
 
 		const lineFn = d3.line()
-			.x(d => x(d[0]))
+			.x(d => isX ? (x(d[0]) + xTickDistance) : d[0])
 			.y(d => y(d[1]));
 
-		const gridLinesGroup = UTILS.DOM_ELEMENTS.chartGroup
+		const gridLinesGroup = chart.DOM_ELEMENTS.chartGroup
 			.append('g')
 				.classed('gridlines', true)
 				.classed(isX ? 'x' : 'y', true);
 
 		if (conf.axis[isX ? 'x' : 'y'].gridLines) {
-			const axisLimits = d3.extent(isX ? yAxisTicks : xAxisTicks);
-			xAxisTicks.filter((d, i) => i !== 0).forEach(d => {
+			const axisLimits = isX ? d3.extent(yAxisTicks) : [0, chart.conf.chartWidth];
+			const axisTicks = isX ? xAxisTicks : yAxisTicks;
+			axisTicks.filter((d, i) => isX || i !== 0).forEach(d => {
 				const data = axisLimits.map(lim => {
 					if (isX) { return [d, lim]; }
 					else { return [lim, d]; }
@@ -41,7 +44,7 @@ const Plotter = (function() {
 			});
 		}
 
-		UTILS.DOM_ELEMENTS[isX ? 'xAxisGridLines' : 'yAxisGridLines'] = gridLinesGroup;
+		chart.DOM_ELEMENTS[isX ? 'xAxisGridLines' : 'yAxisGridLines'] = gridLinesGroup;
 	}
 
 	const createSVG = function(chart) {
@@ -78,36 +81,38 @@ const Plotter = (function() {
 		const chartGroup = svg.append('g')
 			.attr('transform', `translate(${UTILS.MARGIN.LEFT}, ${UTILS.MARGIN.TOP})`);
 
-		UTILS.DOM_ELEMENTS.svg = svg;
-		UTILS.DOM_ELEMENTS.chartGroup = chartGroup;
+		chart.DOM_ELEMENTS.svg = svg;
+		chart.DOM_ELEMENTS.chartGroup = chartGroup;
 	};
 
 	const createAxis = function(chart) {
+		const timeFormat = d3.timeFormat('%d-%m-%Y');
 		const conf = chart.conf;
-		const x = d3.scaleLinear().range([0, conf.chartWidth]);
+		const x = d3.scaleBand().rangeRound([0, conf.chartWidth]).padding(0.1);
 		const y = d3.scaleLinear().range([conf.chartHeight, 0]);
-		UTILS.chartProps.x = x;
-		UTILS.chartProps.y = y;
+		y.domain([0, d3.max(chart.data.map(d => d.value))]);
+		x.domain(chart.data.sort((x, y) => +x.key - +y.key).map(d => timeFormat(new Date(+d.key))));
+		console.log('DATA', chart.data);
+		chart.chartProps.x = x;
+		chart.chartProps.y = y;
 
 		const axisX = d3.axisBottom(x);
 		const axisY = d3.axisLeft(y);
-		UTILS.chartProps.axisX = axisX;
-		UTILS.chartProps.axisY = axisY;
+		chart.chartProps.axisX = axisX;
+		chart.chartProps.axisY = axisY;
 
-		UTILS.DOM_ELEMENTS.chartGroup.append('g')
+		chart.DOM_ELEMENTS.chartGroup.append('g')
 			.classed('axis', true)
 			.classed('y', true)
 			.classed('left', true)
-			.call(UTILS.chartProps.axisY);
+			.call(chart.chartProps.axisY);
 
-		UTILS.DOM_ELEMENTS.chartGroup.append('g')
+		chart.DOM_ELEMENTS.chartGroup.append('g')
 			.attr('transform', `translate(0,${conf.chartHeight})`)
 			.classed('axis', true)
 			.classed('x', true)
 			.classed('bottom', true)
-			.call(UTILS.chartProps.axisX);
-
-		console.log(UTILS.DOM_ELEMENTS.svg);
+			.call(chart.chartProps.axisX);
 	}
 
 	plotter.plot = function(chart) {

@@ -10,10 +10,6 @@ const UTILS = (function() {
 		'LEFT': 50
 	};
 
-	utils.DOM_ELEMENTS = {};
-
-	utils.chartProps = {};
-
 	return utils;
 })();
 
