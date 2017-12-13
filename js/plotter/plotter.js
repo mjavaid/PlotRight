@@ -88,11 +88,14 @@ const Plotter = (function() {
 	const createAxis = function(chart) {
 		const timeFormat = d3.timeFormat('%d-%m-%Y');
 		const conf = chart.conf;
-		const x = d3.scaleBand().rangeRound([0, conf.chartWidth]).padding(0.1);
-		const y = d3.scaleLinear().range([conf.chartHeight, 0]);
-		y.domain([0, d3.max(chart.data.map(d => d.value))]);
-		x.domain(chart.data.sort((x, y) => +x.key - +y.key).map(d => timeFormat(new Date(+d.key))));
-		console.log('DATA', chart.data);
+		const x = d3.scaleBand()
+			.rangeRound([0, conf.chartWidth])
+			.padding(0.1)
+			.domain(chart.data.sort((x, y) => +x.key - +y.key).map(d => timeFormat(new Date(+d.key))));
+		const y = d3.scaleLinear()
+			.range([conf.chartHeight, 0])
+			.domain([0, d3.max(chart.data.map(d => d.value))])
+			.nice();
 		chart.chartProps.x = x;
 		chart.chartProps.y = y;
 

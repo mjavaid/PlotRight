@@ -10,6 +10,8 @@ const PlotRight = (function() {
 
 	const lib = {};
 
+	lib.TYPE = UTILS.TYPES;
+
 	const processData = function(conf) {
 		let data = [...conf.data];
 		data.forEach(d => {

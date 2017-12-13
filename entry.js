@@ -1,12 +1,13 @@
-const PlotRight = require("./js/plotright.js").default;
-const DEV_UTILS = require("./js/dev/utils.js").default;
+const PlotRight = require('./js/plotright.js').default;
+const DEV_UTILS = require('./js/dev/utils.js').default;
 
 (function() {
 	
 	const data = DEV_UTILS.generateData({min: 5, max: 50, n: 20});
 
-	const chart = PlotRight.draw({ 
+	const chart = PlotRight.draw({
 		data,
+		type: PlotRight.TYPE.LINE,
 		selector: '#chart',
 		title: 'Test Chart Title',
 		category: function(d) { return d.x; },

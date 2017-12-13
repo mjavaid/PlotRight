@@ -10,6 +10,10 @@ const UTILS = (function() {
 		'LEFT': 50
 	};
 
+	utils.TYPES = {
+		LINE: 'LINE'
+	};
+
 	return utils;
 })();
 
