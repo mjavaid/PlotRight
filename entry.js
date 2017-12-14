@@ -7,7 +7,7 @@ const DEV_UTILS = require('./js/dev/utils.js').default;
 
 	const chart = PlotRight.draw({
 		data,
-		type: PlotRight.TYPE.LINE,
+		type: PlotRight.TYPE.BAR,
 		selector: '#chart',
 		title: 'Test Chart Title',
 		category: function(d) { return d.x; },

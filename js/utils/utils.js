@@ -11,7 +11,8 @@ const UTILS = (function() {
 	};
 
 	utils.TYPES = {
-		LINE: 'LINE'
+		LINE: 'LINE',
+		BAR: 'BAR'
 	};
 
 	return utils;

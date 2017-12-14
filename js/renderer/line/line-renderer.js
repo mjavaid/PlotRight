@@ -1,4 +1,5 @@
 const d3 = require('d3');
+
 const LineRenderer = (function() {
     const lineRenderer = {};
 
