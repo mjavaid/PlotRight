@@ -120,18 +120,6 @@ const Plotter = (function() {
 
 	plotter.plot = function(chart) {
 		console.log('PLOTTER:', chart.conf);
-		const conf = chart.conf;
-		
-		conf.axis = conf.axis || {};
-		conf.axis.x = conf.axis.x || {};
-		conf.axis.y = conf.axis.y || {};
-		if (conf.axis.gridLines) {
-			conf.axis.x.gridLines = true;
-			conf.axis.y.gridLines = true;
-		} else {
-			conf.axis.x.gridLines = conf.axis.x.gridLines === undefined ? true : conf.axis.x.gridLines;
-			conf.axis.y.gridLines = conf.axis.y.gridLines === undefined ? true : conf.axis.y.gridLines;
-		}
 
 		createSVG(chart);
 		createAxis(chart);

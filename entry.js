@@ -16,6 +16,11 @@ const DEV_UTILS = require('./js/dev/utils.js').default;
 			values.forEach(d => { sum += d.y});
 			return sum;
 		},
+		elements: {
+			dataPoints: {
+				fill: 'white'
+			}
+		},
 		axis: {
 			x: {
 				gridLines: false

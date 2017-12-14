@@ -13,7 +13,10 @@ const LineRenderer = (function() {
             .x(d => x(timeFormat(new Date(+d.key))) + xTickDistance)
             .y(d => y(d.value));
         
-        chartGroup.append('g')
+        const renderGroup = chartGroup.append('g')
+            .classed('render-group', true);
+
+        renderGroup.append('g')
             .classed('line-chart', true)
             .append('path')
                 .data([chart.data])
@@ -21,6 +24,24 @@ const LineRenderer = (function() {
                 .style('stroke', 'steelblue')
                 .style('stroke-width', '2px')
                 .attr('d', lineFn);
+        
+        chart.conf.elements.dataPoints = chart.conf.elements.dataPoints || {};
+        const dataPoints = chart.conf.elements.dataPoints;
+        dataPoints.show = dataPoints.show === undefined ? true : dataPoints.show;
+        dataPoints.size = dataPoints.size || 4;
+        dataPoints.fill = dataPoints.fill || 'steelblue';
+        if (dataPoints.show) {
+            renderGroup.append('g')
+                .classed('circle-group', true)
+                .selectAll('circle').data(chart.data)
+                .enter().append('circle')
+                    .style('fill', dataPoints.fill)
+                    .style('stroke', 'steelblue')
+                    .style('stroke-width', '2px')
+                    .attr('cx', (d) => x(timeFormat(new Date(+d.key))) + xTickDistance)
+                    .attr('cy', (d) => y(d.value))
+                    .attr('r', `${dataPoints.size}px`);
+        }
     };
 
     return lineRenderer;
