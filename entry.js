@@ -1,5 +1,5 @@
-const PlotRight = require('./js/plotright.js').default;
-const DEV_UTILS = require('./js/dev/utils.js').default;
+const PlotRight = require('./src/plotright.js').default;
+const DEV_UTILS = require('./src/dev/utils.js').default;
 
 (function() {
 	
