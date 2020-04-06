@@ -1,7 +1,10 @@
+const Renderer = require('../renderer.js').default;
 const d3 = require('d3');
 
 const LineRenderer = (function() {
-  const lineRenderer = {};
+  const lineRenderer = {
+    type: 'LINE'
+  };
 
   lineRenderer.draw = function(chart) {
     const chartGroup = chart.DOM_ELEMENTS.chartGroup;
@@ -17,14 +20,19 @@ const LineRenderer = (function() {
     const renderGroup = chartGroup.append('g')
       .classed('render-group', true);
 
-    renderGroup.append('g')
-      .classed('line-chart', true)
-      .append('path')
-        .data([chart.data])
-        .style('fill', 'none')
-        .style('stroke', 'steelblue')
-        .style('stroke-width', '2px')
-        .attr('d', lineFn);
+    renderGroup.selectAll('g.series-line')
+      .data(chart.data).enter()
+        .append('g')
+        .classed('series-line', true)
+          .append('path')
+          .classed('line-chart', true)
+          .style('fill', 'none')
+          .style('stroke', d => d.color)
+          .style('stroke-width', '2px')
+          .attr('d', (d) => {
+            console.log('LINE D:', d);
+            return lineFn(d.values);
+          });
       
     chart.conf.elements.dataPoints = chart.conf.elements.dataPoints || {};
     const dataPoints = chart.conf.elements.dataPoints;
@@ -32,20 +40,26 @@ const LineRenderer = (function() {
     dataPoints.size = dataPoints.size || 4;
     dataPoints.fill = dataPoints.fill || 'steelblue';
     if (dataPoints.show) {
-      renderGroup.append('g')
-        .classed('circle-group', true)
-        .selectAll('circle').data(chart.data)
-        .enter().append('circle')
-          .style('fill', dataPoints.fill)
-          .style('stroke', 'steelblue')
-          .style('stroke-width', '2px')
-          .attr('cx', (d) => x(timeFormat(new Date(+d.key))) + xTickDistance)
-          .attr('cy', (d) => y(d.value))
-          .attr('r', `${dataPoints.size}px`);
+      renderGroup.selectAll('g.series-points')
+        .data(chart.data).enter()
+        .append('g')
+        .classed('series-points', true)
+        .style('stroke', d => d.color)
+          .selectAll('circle').data((d) => {
+            console.log('CIRCLE VALUES', d);
+            return d.values;
+          })
+          .enter().append('circle')
+            .style('fill', dataPoints.fill)
+            .style('stroke-width', '2px')
+            .attr('cx', (d) => x(timeFormat(new Date(+d.key))) + xTickDistance)
+            .attr('cy', (d) => y(d.value))
+            .attr('r', `${dataPoints.size}px`);
     }
   };
 
   return lineRenderer;
 })();
+Renderer.register(LineRenderer);
 
 export default LineRenderer;
