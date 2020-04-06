@@ -2,8 +2,7 @@ import PlotRight from './js/plotright';
 import DEV_UTILS from './js/dev/utils';
 
 // Renderers
-require('./js/renderer/bar/bar-renderer.js').default;
-require('./js/renderer/line/line-renderer.js').default;
+import * as engines from './js/renderer/index.js';
 
 (function() {
 	
@@ -11,7 +10,7 @@ require('./js/renderer/line/line-renderer.js').default;
 
 	const chart = PlotRight.draw({
 		data,
-		type: PlotRight.TYPE.LINE,
+		type: PlotRight.TYPE.BAR,
 		selector: '#chart',
 		title: 'Test Chart Title',
 		category: function(d) { return d.x; },

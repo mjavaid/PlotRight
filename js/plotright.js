@@ -10,7 +10,7 @@ const PlotRight = (function() {
 
 	const lib = {};
 
-	lib.TYPE = UTILS.TYPES;
+	lib.TYPE = Renderer.TYPES;
 
 	const processData = function(conf) {
 		let data = [...conf.data];
