@@ -1,9 +1,13 @@
-const PlotRight = require('./js/plotright.js').default;
-const DEV_UTILS = require('./js/dev/utils.js').default;
+import PlotRight from './js/plotright';
+import DEV_UTILS from './js/dev/utils';
+
+// Renderers
+require('./js/renderer/bar/bar-renderer.js').default;
+require('./js/renderer/line/line-renderer.js').default;
 
 (function() {
 	
-	const data = DEV_UTILS.generateData({min: 5, max: 50, n: 20});
+	const data = DEV_UTILS.generateData({min: 5, max: 50, n: 20, series: ['series1', 'series2', 'series3']});
 
 	const chart = PlotRight.draw({
 		data,
@@ -16,6 +20,7 @@ const DEV_UTILS = require('./js/dev/utils.js').default;
 			values.forEach(d => { sum += d.y});
 			return sum;
 		},
+		series: function(d) { return d.series; },
 		elements: {
 			dataPoints: {
 				fill: 'white'

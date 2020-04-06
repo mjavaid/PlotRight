@@ -14,16 +14,37 @@ const PlotRight = (function() {
 
 	const processData = function(conf) {
 		let data = [...conf.data];
+		const seriesFn = conf.series || ((d) => 'series1');
 		data.forEach(d => {
-			d.category = UTILS.TIME.rollup(conf.category(d), conf.granularity).getTime();
+			d.category = +UTILS.TIME.rollup(conf.category(d), conf.granularity).getTime();
+			d.series = seriesFn(d);
 		});
 
 		console.log(JSON.stringify(data));
 
 		data = d3.nest()
-			.key(function(d) { return d.category; })
+			.key(d => d.series)
+			.key(d => d.category)
+			.sortKeys(d3.ascending)
 			.rollup(conf.value)
 			.entries(conf.data);
+
+		const categories = [...(new Set(data.reduce((acc, s) => {
+			return acc.concat(s.values.map(d => d.key));
+		}, [])))];
+		const values = [...(new Set(data.reduce((acc, s) => {
+			return acc.concat(s.values.map(d => d.value));
+		}, [])))];
+
+		data.forEach((s, i) => {
+			s.color = UTILS.COLORS[i % UTILS.COLORS.length];
+		});
+
+		console.log('SETS:', categories, values);
+
+		conf.dataProps = {
+			categories, values
+		};
 
 		return data;
 	};

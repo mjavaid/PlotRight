@@ -15,6 +15,14 @@ const UTILS = (function() {
 		BAR: 'BAR'
 	};
 
+	utils.COLORS = [
+		'#00876c',
+		'#d43d51',
+		'#fae684',
+		'#f29553',
+		'#86ba71',
+	]
+
 	return utils;
 })();
 

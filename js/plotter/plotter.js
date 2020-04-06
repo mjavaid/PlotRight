@@ -91,10 +91,10 @@ const Plotter = (function() {
 		const x = d3.scaleBand()
 			.rangeRound([0, conf.chartWidth])
 			.padding(0.1)
-			.domain(chart.data.sort((x, y) => +x.key - +y.key).map(d => timeFormat(new Date(+d.key))));
+			.domain(conf.dataProps.categories.sort((x, y) => +x - +y).map(d => timeFormat(new Date(+d))));
 		const y = d3.scaleLinear()
 			.range([conf.chartHeight, 0])
-			.domain([0, d3.max(chart.data.map(d => d.value))])
+			.domain([0, d3.max(conf.dataProps.values)])
 			.nice();
 		chart.chartProps.x = x;
 		chart.chartProps.y = y;
