@@ -10,11 +10,6 @@ const UTILS = (function() {
 		'LEFT': 50
 	};
 
-	utils.TYPES = {
-		LINE: 'LINE',
-		BAR: 'BAR'
-	};
-
 	utils.COLORS = [
 		'#00876c',
 		'#d43d51',
